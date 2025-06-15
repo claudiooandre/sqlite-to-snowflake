@@ -8,7 +8,7 @@ It extracts sales data from a local SQLite database, transforms it, uploads it t
 
 ## Tech Stack
 
-- **Python 3.12+**
+- **Python 3+**
 - **SQLite** (local source database)
 - **Pandas** (data manipulation)
 - **SQLAlchemy** (SQLite connection)
