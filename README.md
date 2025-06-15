@@ -67,7 +67,7 @@ ORDER BY total_vendas DESC;
 
 ```bash
 ✅ Upload complete: 3 rows loaded.
-('Notebook', 6000.0)
+('Portatil', 6000.0)
 ('Teclado', 600.0)
 ('Mouse', 500.0)
 ```
