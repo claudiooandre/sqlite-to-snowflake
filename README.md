@@ -1,56 +1,92 @@
-📦 Project: ETL Pipeline with SQLite and Snowflake
+# ETL Pipeline: SQLite → Python → Snowflake
 
-🔍 Overview
+This project demonstrates a complete **ETL (Extract, Transform, Load)** workflow using **Python**, **SQLite**, and **Snowflake**.
 
-This project is a complete ETL (Extract, Transform, Load) pipeline built in Python, designed to:
+It extracts sales data from a local SQLite database, transforms it, uploads it to Snowflake, and runs a basic sales analysis.
 
-Extract data from a local SQLite database
-Apply basic data transformations
-Load the transformed data into a Snowflake cloud data warehouse
-Run a simple analysis query on Snowflake
-It serves as a clean, modular example of how to integrate local data sources with cloud-based data warehouses using Python.
+---
 
-⚙️ Technologies & Libraries
+## Tech Stack
 
-Python 3.12+
-SQLite (local database)
-Pandas (data manipulation)
-SQLAlchemy (for connecting to SQLite)
-Snowflake Connector for Python
-Snowflake Pandas Tools (write_pandas)
-🧩 Project Structure
+- **Python 3.12+**
+- **SQLite** (local source database)
+- **Pandas** (data manipulation)
+- **SQLAlchemy** (SQLite connection)
+- **Snowflake Connector for Python**
+- **write_pandas** (uploading DataFrames to Snowflake)
 
+---
+
+## Project Structure
+
+```
 sqlite_to_snowflake/
 ├── analysis/
-│   └── queries.py              # Executes SQL analysis in Snowflake
+│   └── queries.py              # SQL analysis queries on Snowflake
 ├── config/
 │   └── snowflake_config.py     # Connection parameters
 ├── database/
 │   └── vendas.db               # Local SQLite database
 ├── etl/
-│   ├── extract_sqlite.py       # Extracts data from SQLite
-│   ├── transform.py            # Cleans and transforms data
-│   └── load_snowflake.py       # Loads data into Snowflake
-├── main.py                     # Full ETL pipeline script
-└── requirements.txt            # Project dependencies
-🛠️ Features
+│   ├── extract_sqlite.py       # Extract data from SQLite
+│   ├── transform.py            # Clean and transform the data
+│   └── load_snowflake.py       # Upload to Snowflake
+├── main.py                     # Executes the full ETL + analysis
+└── requirements.txt            # Dependencies
+```
 
-1. Extraction
-Reads the vendas table from a local SQLite .db file using SQLAlchemy.
+---
 
-2. Transformation
-Cleans the data and calculates a new column:
+## Pipeline Steps
 
-valor_total = quantidade * preco_unitario
-3. Load
-Creates or replaces the vendas table in Snowflake and uploads the transformed data using write_pandas.
+### 1. Extract  
+Pulls data from a local SQLite database.
 
-4. Analysis
-Performs a Snowflake SQL query to summarize sales by product, ordered by total value.
+```python
+SELECT * FROM vendas
+```
 
-📈 Example Output
+### 2. Transform  
+Adds a new column: `valor_total = quantidade * preco_unitario`
 
+### 3. Load  
+Uploads the cleaned DataFrame to a Snowflake table named `"vendas"` using `write_pandas`.
+
+### 4. Analyze  
+Executes:
+
+```sql
+SELECT "produto", SUM("valor_total") AS total_vendas
+FROM "vendas"
+GROUP BY "produto"
+ORDER BY total_vendas DESC;
+```
+
+---
+
+## Example Output
+
+```bash
 ✅ Upload complete: 3 rows loaded.
 ('Notebook', 6000.0)
 ('Teclado', 600.0)
 ('Mouse', 500.0)
+```
+
+---
+
+## Configuration
+
+Edit your `config/snowflake_config.py` file with your Snowflake credentials:
+
+```python
+conn_params = {
+    "user": "your_username",
+    "password": "your_password",
+    "account": "your_account_region",
+    "warehouse": "your_warehouse",
+    "database": "your_database",
+    "schema": "your_schema"
+}
+```
+
