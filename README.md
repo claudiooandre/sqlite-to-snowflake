@@ -46,7 +46,7 @@ SELECT * FROM vendas
 ```
 
 ### 2. Transform  
-Adds a new column: `valor_total = quantidade * preco_unitario`
+Adds a new column: `valor_total = quantidade * preco_uni`
 
 ### 3. Load  
 Uploads the cleaned DataFrame to a Snowflake table named `"vendas"` using `write_pandas`.
