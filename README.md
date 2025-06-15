@@ -32,7 +32,6 @@ sqlite_to_snowflake/
 │   ├── transform.py            # Clean and transform the data
 │   └── load_snowflake.py       # Upload to Snowflake
 ├── main.py                     # Executes the full ETL + analysis
-└── requirements.txt            # Dependencies
 ```
 
 ---
